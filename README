@@ -52,7 +52,7 @@ cvs co -r 1.6 JetMETCorrections/Type1MET/python/pfMETsysShiftCorrections_cfi.py
 # ntuple producer
 # If you change destination (-d parameter) change paths in "includes"  in header files
 git clone git@github.com:jpavel/ZHAnalysis53xNtupleProducer.git Analysis/NtupleProducer
-git checkout V-025D
+git checkout WH-01
 
 #compile and link
 scram b -j 9

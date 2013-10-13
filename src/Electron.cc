@@ -256,6 +256,9 @@ void NtupleProducer::DoElectronAnalysis(const edm::Event& iEvent, const edm::Eve
    edm::Ref<reco::GsfElectronCollection> eleRefgsf(ElectronsHandleGSF, num_debug);
         elo.Id_mvaTrg = (*mvaTrigV0_)[eleRefgsf];
         elo.Id_mvaNonTrg = (*mvaNonTrigV0_)[eleRefgsf];
+	elo.isGsfCtfScPixChargeConsistent= itr_elec->isGsfCtfScPixChargeConsistent() ;
+	elo.isGsfScPixChargeConsistent = itr_elec->isGsfScPixChargeConsistent();
+	elo.isGsfCtfChargeConsistent = itr_elec->isGsfCtfChargeConsistent();
         num = num_debug;
         break;
 }
