@@ -6,6 +6,7 @@ using namespace std;
 #include <map>
 #include <utility>
 #include "myobject.h"
+#include "myGenEvent.h"
 #include "myGenobject.h"
 
 class myevent : public TObject {
@@ -83,6 +84,19 @@ public:
     float MVAMet_sigMatrix_01;
     float MVAMet_sigMatrix_10;
     float MVAMet_sigMatrix_11;
+
+    // PDF info
+
+    double alphaQCD, alphaQED, qScale, weight;
+    bool hasPDF, hasBinningValues;
+    unsigned int signalProcessID;
+    int id_First, id_Second;
+    double scalePDF;
+    double x_First, x_Second;
+    double xPDF_First, xPDF_Second;
+    int binningValueSize;
+    double binningValue0;
+
 
 
 private:

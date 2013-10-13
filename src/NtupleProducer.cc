@@ -50,6 +50,7 @@ NtupleProducer::NtupleProducer(const edm::ParameterSet& iConfig) {
     Include_Muon = iConfig.getParameter<bool>("Include_Muon");
     Include_HPSTau = iConfig.getParameter<bool>("Include_HPSTau");
     Include_GenPartiles = iConfig.getParameter<bool>("Include_GenPartiles");
+    Include_GenEvent    = iConfig.getParameter<bool>("Include_GenEvent");
     Include_Jet = iConfig.getParameter<bool>("Include_Jet");
     Include_JetCorrection = iConfig.getParameter<bool>("Include_JetCorrection");
     Include_MET = iConfig.getParameter<bool>("Include_MET");
@@ -90,6 +91,7 @@ rhoCenNeutralTight_= iConfig.getParameter<edm::InputTag > ("rhoCenNeutralTight")
 
     PileUpInfo_ = iConfig.getParameter<edm::InputTag > ("PileUpInfo");
     GenParticlesInfo_ = iConfig.getParameter<edm::InputTag > ("genParticlesInfo");
+    GenEventInfo_ = iConfig.getParameter<edm::InputTag > ("genEventInfo");
 
     //needed for trigger matching
     triggerEvent_ = (iConfig.getParameter< edm::InputTag > ("triggerEvent"));
@@ -117,7 +119,6 @@ NtupleProducer::~NtupleProducer() {
 
 void
 NtupleProducer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup) {
-
 
     if (Include_Vertex) DoVertexAnalysis(iEvent);
     if (Include_Electron) DoElectronAnalysis(iEvent, iSetup);

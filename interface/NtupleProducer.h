@@ -13,6 +13,8 @@
 
 //for HepMC
 #include "SimDataFormats/GeneratorProducts/interface/HepMCProduct.h"
+#include "SimDataFormats/GeneratorProducts/interface/GenRunInfoProduct.h"
+#include "SimDataFormats/GeneratorProducts/interface/GenEventInfoProduct.h"
 
 // user include files
 #include "DataFormats/Math/interface/deltaR.h"
@@ -236,6 +238,7 @@ private:
 
     edm::InputTag PileUpInfo_;
     edm::InputTag GenParticlesInfo_;
+    edm::InputTag GenEventInfo_;
     edm::InputTag triggerEvent_;
     std::string tauMatch_Loose_;
     std::string electronMatch_Loose_;
@@ -252,6 +255,7 @@ private:
     bool Include_HLT;
     bool Include_Vertex;
     bool Include_GenPartiles;
+    bool Include_GenEvent;
     bool IsMC;
     
     bool filterTriggerResults;

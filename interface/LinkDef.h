@@ -25,7 +25,6 @@
 #pragma link C++ function operator>(const vector<myGenobject>::iterator&,const vector<myGenobject>::iterator&); 
 #pragma link C++ function operator-(const vector<myGenobject>::iterator&,const vector<myGenobject>::iterator&); 
 #pragma link C++ function operator+(const vector<myGenobject>::iterator::difference_type,const vector<myGenobject>::iterator&); 
-
 #pragma link C++ class myevent+;
 #endif
 

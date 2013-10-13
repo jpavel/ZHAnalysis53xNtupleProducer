@@ -112,6 +112,39 @@ void NtupleProducer::DoGenParticlesAnalysis(const edm::Event& iEvent) {
             (m->RecGenJet).push_back(myGenJet);
 
         }
+
+	// PDF info
+
+    if (Include_GenEvent){
+	  //=================== PF gen AK5 =================================                                                                                                                                                           
+	  Handle<GenEventInfoProduct> GenEv;
+	  iEvent.getByLabel(GenEventInfo_, GenEv);
+
+            
+	  if(GenEv.isValid()){
+	    m->alphaQCD                    = GenEv->alphaQCD();
+	    m->alphaQED                    = GenEv->alphaQED();
+	    m->qScale                      = GenEv->qScale();
+	    m->weight                      = GenEv->weight();
+	    m->hasPDF                      = GenEv->hasPDF();
+	    m->hasBinningValues            = GenEv->hasBinningValues();
+	    m->signalProcessID             = GenEv->signalProcessID();
+	    if(GenEv->pdf()){
+	      m->scalePDF                    = GenEv->pdf()->scalePDF;
+	      m->x_First                     = GenEv->pdf()->x.first;
+	      m->x_Second                    = GenEv->pdf()->x.second;
+	      m->id_First                    = GenEv->pdf()->id.first;
+	      m->id_Second                   = GenEv->pdf()->id.second;
+	      m->xPDF_First                  = GenEv->pdf()->xPDF.first;
+	      m->xPDF_Second                 = GenEv->pdf()->xPDF.second;
+	    }
+	    m->binningValueSize            = GenEv->binningValues().size();
+	    if(GenEv->binningValues().size() >0) m->binningValue0               = GenEv->binningValues()[0];
+	  }
+     }
     }
+
+
+
 }
 

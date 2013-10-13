@@ -104,6 +104,7 @@ process.myanalysis = cms.EDAnalyzer("NtupleProducer",
                                     Include_HLT=cms.bool(True),
                                     Include_Vertex=cms.bool(True),
                                     Is_MC=cms.bool(isMC),
+                                    Include_GenEvent=cms.bool(True),
                                     
                                      # storing only certain trigger strings
                                     filterTriggerResults=cms.bool(True),
@@ -149,6 +150,7 @@ rhoCenNeutralTight=cms.InputTag("kt6PFJetsCentralNeutralTight", "rho"),
                                     # MC Information
                                     PileUpInfo=cms.InputTag("addPileupInfo"),
                                     genParticlesInfo=cms.InputTag("genParticles"),
+                                    genEventInfo=cms.InputTag("generator"),
 
                                                                       #Trigger and TriggerMatching
                                     triggerEvent=cms.InputTag("patTriggerEvent"),
