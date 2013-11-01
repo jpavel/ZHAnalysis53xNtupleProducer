@@ -344,6 +344,19 @@ void NtupleProducer::DoElectronAnalysis(const edm::Event& iEvent, const edm::Eve
 	  elo.TrgObjectPhi_loose = trigRef_loose->phi();
         }
 
+	const pat::TriggerObjectRef trigRef_medium(matchHelper.triggerMatchObject(ElectronsHandle, index, electronMatch_Medium_, iEvent, *triggerEvent));
+        elo.hasTrgObject_medium = false;
+	elo.TrgObjectEta_medium = -100;
+	elo.TrgObjectPt_medium = -100;
+        elo.TrgObjectPhi_medium = -100;
+	// finally we can fill the histograms                                                                                                                                                                                        
+	if (trigRef_medium.isAvailable()) { // check references (necessary!)                                                                                                                                                          
+
+          elo.hasTrgObject_medium = true;
+	  elo.TrgObjectEta_medium = trigRef_medium->eta();
+          elo.TrgObjectPt_medium = trigRef_medium->pt();
+	  elo.TrgObjectPhi_medium = trigRef_medium->phi();
+        }
 
 
 

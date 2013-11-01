@@ -203,6 +203,21 @@ muo.normalizedChi2_innTrk = (amuon->innerTrack().isNonnull() ? amuon->innerTrack
 	  muo.TrgObjectPhi_loose = trigRef_loose->phi();
         }
 
+	const pat::TriggerObjectRef trigRef_medium(matchHelper.triggerMatchObject(muonsHandle, qq, muonMatch_Medium_, iEvent, *triggerEvent));
+	muo.hasTrgObject_medium = false;
+        muo.TrgObjectEta_medium = -100;
+        muo.TrgObjectPt_medium = -100;
+        muo.TrgObjectPhi_medium = -100;
+        // finally we can fill the histograms                                                                                                                                                                                        
+        if (trigRef_medium.isAvailable()) { // check references (necessary!)                                                                                                                                                          
+
+          muo.hasTrgObject_medium = true;
+          muo.TrgObjectEta_medium = trigRef_medium->eta();
+          muo.TrgObjectPt_medium = trigRef_medium->pt();
+          muo.TrgObjectPhi_medium = trigRef_medium->phi();
+        }
+
+
         (m->PreSelectedMuons).push_back(muo);
 
 

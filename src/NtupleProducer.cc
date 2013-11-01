@@ -99,6 +99,9 @@ rhoCenNeutralTight_= iConfig.getParameter<edm::InputTag > ("rhoCenNeutralTight")
     tauMatch_Medium_ = (iConfig.getParameter< std::string > ("tauMatch_Medium"));
     electronMatch_Loose_ = (iConfig.getParameter< std::string > ("electronMatch_Loose"));
     muonMatch_Loose_ = (iConfig.getParameter< std::string > ("muonMatch_Loose"));
+    electronMatch_Medium_ = iConfig.exists("electronMatch_Medium") ? iConfig.getParameter< std::string > ("electronMatch_Medium") : "";
+    muonMatch_Medium_ = iConfig.exists("electronMatch_Medium") ? iConfig.getParameter< std::string > ("muonMatch_Medium") : "";
+
 
     filterTriggerResults = iConfig.exists("filterTriggerResults") ? iConfig.getParameter<bool>("filterTriggerResults") : 0 ;
     puJetIdFlag_ = iConfig.getParameter<edm::InputTag>("puJetIdFlag");

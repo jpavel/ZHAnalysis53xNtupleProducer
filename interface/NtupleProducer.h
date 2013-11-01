@@ -242,8 +242,10 @@ private:
     edm::InputTag triggerEvent_;
     std::string tauMatch_Loose_;
     std::string electronMatch_Loose_;
+    std::string electronMatch_Medium_;
     std::string tauMatch_Medium_;
     std::string muonMatch_Loose_;
+    std::string muonMatch_Medium_;
 
     bool Include_HPSTau;
     bool Include_Muon;

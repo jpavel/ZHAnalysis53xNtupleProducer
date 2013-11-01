@@ -56,6 +56,8 @@ process.source = cms.Source("PoolSource",
 #    'file:/afs/cern.ch/work/j/jez/ntuples/tauID/mc/Summer12/DYJetsToLL_M-50_TuneZ2Star_8TeV-madgraph-tarball/AODSIM/PU_S7_START52_V9-v2/0003/F41D7301-BE9B-E111-9C03-002481E0D6A0.root'
 #    'file:/afs/cern.ch/work/j/jez/ntuples/2012C_v1/DoubleElectron/BC850526-F2C6-E111-8C96-003048CF99BA.root' #data
     'file:/afs/cern.ch/work/j/jez/ntuples/FEF4E41A-46D4-E111-9594-0025B3E06424.root' #MC
+#    'file:pickevents2.root'
+#    /afs/cern.ch/user/j/jez/public/WH/WZJets/event1254663.AODSIM.root'
 #    'file:/afs/cern.ch/work/j/jez/private/CMS/analysis/ZH/53x/PostMoriond/production/CMSSW_5_3_3_patch3/src/crab_0_130226_161836/res/pickevents_1_1_TUE.root'
 #    'file:/afs/cern.ch/work/j/jez/ntuples/analysis/mc/Summer11//WH_ZH_TTH_HToTauTau_M-130_7TeV-pythia6-tauola/AODSIM/PU_S4_START42_V11-v1/0000/0EC8AE34-128E-E011-A1F3-90E6BA19A25E.root'
     )
@@ -72,13 +74,15 @@ isMC = True      #comment it for Data
 
 if isMC:
     HLTProcessName = 'HLT'
-    process.GlobalTag.globaltag = cms.string('START53_V20::All') #updated JEC
+    process.GlobalTag.globaltag = cms.string('START53_V24::All') #Spring 13 JEC
+#    ('START53_V20::All') #updated JEC
 #    process.GlobalTag.globaltag = cms.string('START41_V0::All')
 #    process.GlobalTag.globaltag = cms.string('START311_V2::All')
 
 else:
     HLTProcessName = 'HLT'
-    process.GlobalTag.globaltag = cms.string('FT53_V10A_AN3::All') #2012C_v1 re-reco Aug24
+    process.GlobalTag.globaltag = cms.string('FT53_V21_AN3::All') # 22Jan2013 53x reprocessing
+#    ('FT53_V10A_AN3::All') #2012C_v1 re-reco Aug24
     process.patPFMet.addGenMET = cms.bool(False)
     #  process.GlobalTag.globaltag = cms.string('FT_53_V6C_AN3::All') #2012A+B re-reco Jul13 + 2012A Aug6 re-reco
     #  process.GlobalTag.globaltag = cms.string('GR_P_V42_AN3::All') #2012C_v2 +2012D Prompt Reco
@@ -158,6 +162,8 @@ rhoCenNeutralTight=cms.InputTag("kt6PFJetsCentralNeutralTight", "rho"),
                                     tauMatch_Medium=cms.string('tauTriggerMatchHLTTausMedium'),
                                     electronMatch_Loose=cms.string('electronTriggerMatchHLTElectronsLoose'),
                                     muonMatch_Loose=cms.string('muonTriggerMatchHLTMuonsLoose'),
+                                    electronMatch_Medium=cms.string('electronTriggerMatchHLTElectronsMedium'),
+                                    muonMatch_Medium=cms.string('muonTriggerMatchHLTMuonsMedium'),
 
 
                                     puJetIdFlag=cms.InputTag("puJetMva","fullId"),
@@ -357,6 +363,17 @@ process.electronTriggerMatchHLTElectronsLoose = cms.EDProducer("PATTriggerMatche
                                                                resolveByMatchQuality=cms.bool(True)
                                                                                                       )
 
+process.electronTriggerMatchHLTElectronsMedium = cms.EDProducer("PATTriggerMatcherDRDPtLessByR",
+                                                               src=cms.InputTag("selectedPatElectrons"),
+                                                               matched=cms.InputTag("patTrigger"),
+                                                               matchedCuts=cms.string('path( "HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v*" )'), #2012 only
+                                                               maxDPtRel=cms.double(0.5),
+                                                               maxDeltaR=cms.double(0.5),
+                                                               resolveAmbiguities=cms.bool(True),
+                                                               resolveByMatchQuality=cms.bool(True)
+                                                               )
+
+
 process.muonTriggerMatchHLTMuonsLoose = cms.EDProducer("PATTriggerMatcherDRDPtLessByR",
                                                      src=cms.InputTag("selectedPatMuons"),
                                                        matched=cms.InputTag("patTrigger"),
@@ -366,6 +383,16 @@ process.muonTriggerMatchHLTMuonsLoose = cms.EDProducer("PATTriggerMatcherDRDPtLe
                                                        resolveAmbiguities=cms.bool(True),
                                                        resolveByMatchQuality=cms.bool(True)
                                                                                                      )
+
+process.muonTriggerMatchHLTMuonsMedium = cms.EDProducer("PATTriggerMatcherDRDPtLessByR",
+                                                       src=cms.InputTag("selectedPatMuons"),
+                                                       matched=cms.InputTag("patTrigger"),
+                                                       matchedCuts=cms.string('path( "HLT_Mu17_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v*" )'),
+                                                       maxDPtRel=cms.double(0.5),
+                                                       maxDeltaR=cms.double(0.5),
+                                                       resolveAmbiguities=cms.bool(True),
+                                                       resolveByMatchQuality=cms.bool(True)
+                                                       )
 #Vertexing
 process.load("RecoVertex.AdaptiveVertexFinder.inclusiveVertexing_cff")
 #SoftLepton
@@ -492,7 +519,7 @@ process.p = cms.Path (
 from PhysicsTools.PatAlgos.tools.trigTools import *
 
 #switchOnTrigger( process ) # This is optional and can be omitted.
-switchOnTriggerMatching(process, ['tauTriggerMatchHLTTausLoose','tauTriggerMatchHLTTausMedium','electronTriggerMatchHLTElectronsLoose','muonTriggerMatchHLTMuonsLoose'])
+switchOnTriggerMatching(process, ['tauTriggerMatchHLTTausLoose','tauTriggerMatchHLTTausMedium','electronTriggerMatchHLTElectronsLoose','muonTriggerMatchHLTMuonsLoose','electronTriggerMatchHLTElectronsMedium','muonTriggerMatchHLTMuonsMedium'])
 #switchOnTriggerMatching(process, ['tauTriggerMatchHLTTausMedium'])
 
 # Switch to selected PAT objects in the trigger matching
