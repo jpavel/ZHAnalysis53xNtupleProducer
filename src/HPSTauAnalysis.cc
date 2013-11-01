@@ -38,7 +38,7 @@ void NtupleProducer::DoHPSTauAnalysis(const edm::Event& iEvent, const edm::Event
     Handle<pat::TauCollection> tausHandle;
     iEvent.getByLabel(PreSelectedhpsCollection_, tausHandle);
     const TauCollection &tau = *(tausHandle.product());
-
+    if(verbose_) std::cout << "Successfully loaded " << PreSelectedhpsCollection_ << " collection" << std::endl;
     pat::TauCollection::const_iterator itau = tau.begin();
     pat::TauCollection::const_iterator jtau = tau.end();
 
@@ -51,8 +51,11 @@ void NtupleProducer::DoHPSTauAnalysis(const edm::Event& iEvent, const edm::Event
 
 
     int ipftau = 0;
+    if(verbose_) std::cout << "Starting loop over taus " << std::endl;
+    int nTaus=0;
     for (; itau != jtau; ++itau, ipftau++) {
-
+        nTaus++;
+	
         myobject tauu;
         if (PrVx_match->size() > 0)
             tauu.dz_Ver_match = itau->vertex().z() - PrVx_match->front().z();
@@ -68,8 +71,7 @@ void NtupleProducer::DoHPSTauAnalysis(const edm::Event& iEvent, const edm::Event
         tauu.py = itau->py();
         tauu.pz = itau->pz();
         tauu.z = itau->vz();
-
-
+	if(verbose_) std::cout << "Now processing tau #" << nTaus << ": pt = " << itau->pt() << " eta = " << itau->eta() << "phi = " << itau->phi() << " charge: "<< itau->charge() << std::endl; 
         tauu.E = itau->p();
         tauu.Energy = itau->energy();
         tauu.emfraction = itau->emFraction();
@@ -106,6 +108,7 @@ void NtupleProducer::DoHPSTauAnalysis(const edm::Event& iEvent, const edm::Event
         tauu.trackRefPt = (itau->leadPFChargedHadrCand().isNonnull() ? itau->leadPFChargedHadrCand()->pt() : 0.);
         //
         tauu.discriminationByDecayModeFinding = itau->tauID("decayModeFinding") > 0.5 ? true : false;
+	if(verbose_) std::cout << "  -> DM finding: " << itau->tauID("decayModeFinding") << std::endl;
 
         tauu.byVLooseCombinedIsolationDeltaBetaCorr = itau->tauID("byVLooseCombinedIsolationDeltaBetaCorr") > 0.5 ? true : false;
         tauu.byLooseCombinedIsolationDeltaBetaCorr = itau->tauID("byLooseCombinedIsolationDeltaBetaCorr") > 0.5 ? true : false;
@@ -113,6 +116,7 @@ void NtupleProducer::DoHPSTauAnalysis(const edm::Event& iEvent, const edm::Event
         tauu.byTightCombinedIsolationDeltaBetaCorr = itau->tauID("byTightCombinedIsolationDeltaBetaCorr") > 0.5 ? true : false;
 	// 3Hits isolation
         tauu.byLooseCombinedIsolationDeltaBetaCorr3Hits = itau->tauID("byLooseCombinedIsolationDeltaBetaCorr3Hits") > 0.5 ? true : false;
+	if(verbose_) std::cout << "  -> Loose3Hit: " << itau->tauID("byLooseCombinedIsolationDeltaBetaCorr3Hits") << std::endl;
         tauu.byMediumCombinedIsolationDeltaBetaCorr3Hits = itau->tauID("byMediumCombinedIsolationDeltaBetaCorr3Hits") > 0.5 ? true : false;
         tauu.byTightCombinedIsolationDeltaBetaCorr3Hits = itau->tauID("byTightCombinedIsolationDeltaBetaCorr3Hits") > 0.5 ? true : false;
 	tauu.byRawCombinedIsolationDeltaBetaCorr3Hits = itau->tauID("byCombinedIsolationDeltaBetaCorrRaw3Hits");
@@ -129,6 +133,7 @@ void NtupleProducer::DoHPSTauAnalysis(const edm::Event& iEvent, const edm::Event
         tauu.discriminationByElectronMVA2Tight = itau->tauID("againstElectronTightMVA2") > 0.5 ? true : false;
         
         tauu.discriminationByElectronMVA3Loose = itau->tauID("againstElectronLooseMVA3") > 0.5 ? true : false;
+	if(verbose_) std::cout << "  -> againstElectronLooseMVA3: " << itau->tauID("againstElectronLooseMVA3") << std::endl;
         tauu.discriminationByElectronMVA3Medium = itau->tauID("againstElectronMediumMVA3") > 0.5 ? true : false;
         tauu.discriminationByElectronMVA3Tight = itau->tauID("againstElectronTightMVA3") > 0.5 ? true : false;
 	tauu.discriminationByElectronMVA3VTight = itau->tauID("againstElectronVTightMVA3") > 0.5 ? true : false;
@@ -137,6 +142,7 @@ void NtupleProducer::DoHPSTauAnalysis(const edm::Event& iEvent, const edm::Event
         tauu.discriminationByMuonLoose = itau->tauID("againstMuonLoose") > 0.5 ? true : false;
         tauu.discriminationByMuonMedium = itau->tauID("againstMuonMedium") > 0.5 ? true : false;
         tauu.discriminationByMuonTight = itau->tauID("againstMuonTight") > 0.5 ? true : false;
+	if(verbose_) std::cout << "  -> againstMuonTight: " << itau->tauID("againstMuonTight") << std::endl;
 	// 2013 ID
 	tauu.discriminationByMuonLoose2 = itau->tauID("againstMuonLoose2") > 0.5 ? true : false;
         tauu.discriminationByMuonMedium2 = itau->tauID("againstMuonMedium2") > 0.5 ? true : false;

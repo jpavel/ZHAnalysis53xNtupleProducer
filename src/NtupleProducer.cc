@@ -108,6 +108,7 @@ rhoCenNeutralTight_= iConfig.getParameter<edm::InputTag > ("rhoCenNeutralTight")
     mu_trigger_name = iConfig.exists("mu_trigger_name") ? iConfig.getParameter<std::string> ("mu_trigger_name") : "Mu" ;
 
     tauPtcut_ = iConfig.exists("tauPtcut_") ? iConfig.getParameter<double> ("tauPtCut") : 15.0;
+    verbose_ = iConfig.exists("verbose") ? iConfig.getParameter<bool> ("verbose") : false;
 }
 
 NtupleProducer::~NtupleProducer() {

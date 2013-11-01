@@ -3,13 +3,15 @@
 void NtupleProducer::DoVertexAnalysis(const edm::Event& iEvent) {
     (m->Vertex).clear();
 
+
     (m->runNumber) = 0;
     (m->eventNumber) = 0;
     (m->lumiNumber) = 0;
     m->runNumber = iEvent.id().run();
     m->eventNumber = iEvent.id().event();
     m->lumiNumber = iEvent.id().luminosityBlock();
-
+    
+    if(verbose_) std::cout << "now processing " << iEvent.id().run() <<":" << iEvent.id().luminosityBlock() << ":" << iEvent.id().event() << std::endl;
     m->PUInfo = 0;
     m->PUInfo_true = 0;
     m->PUInfo_Bunch0 = 0;

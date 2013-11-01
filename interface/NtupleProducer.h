@@ -267,7 +267,8 @@ private:
     std::string mu_trigger_name;
     
     double tauPtcut_;
-
+    
+    bool verbose_;
     myevent *m; // for root tree definition
     TTree *t;
     TFile* hOutputFile;
